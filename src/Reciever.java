@@ -3,11 +3,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 
 public class Reciever {
 	
-	public static void main(String[] args) throws IOException, ClassNotFoundException {
+	public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchAlgorithmException {
 		
 		if (args.length != 1) {
 			System.out.println("Incorrect usage of program! Must pass one command line argument!");
@@ -26,6 +29,17 @@ public class Reciever {
 			System.exit(0);
 		}
 
+		// generates an AES key (256 bits)
+        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+        keyGen.init(256);
+        SecretKey aesKey = keyGen.generateKey();
+        
+        File dataFile = new File("");
+        byte[] data = new byte[(int) dataFile.length()];
+        FileInputStream datafis = new FileInputStream(dataFile);
+        datafis.read(data);
+        datafis.close();
+        
 		
 	}
 	

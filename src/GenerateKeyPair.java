@@ -46,6 +46,5 @@ public class GenerateKeyPair {
 		privateoos.writeObject(privateKey);
 		privateoos.close();
 		privatefos.close();
-		System.out.println(privateKey);
 	}
 }
