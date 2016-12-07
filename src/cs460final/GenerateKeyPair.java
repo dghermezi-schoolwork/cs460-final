@@ -1,20 +1,18 @@
 package cs460final;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-// This program generates a 2048 bit RSA key pair
+// This program generates an RSA key pair
 public class GenerateKeyPair {
 
 	public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
 		
+		// Check command line arguments
 		if (args.length != 2) {
 			System.out.println("Incorrect usage of program! Must pass two command line argument!");
 			System.out.println("First argument: desired public key file name (relative path).");
@@ -29,23 +27,26 @@ public class GenerateKeyPair {
 		PublicKey publicKey = keyPair.getPublic();
 		PrivateKey privateKey = keyPair.getPrivate();
 		
+		// Gets the file names from the command line arguments
 		String publicName = args[0];
 		String privateName = args[1];
 		
-		// sets up the output streams
+		// Sets up the output streams
 		FileOutputStream publicfos = new FileOutputStream(publicName);
 		FileOutputStream privatefos = new FileOutputStream(privateName);
-		ObjectOutputStream publicoos = new ObjectOutputStream(publicfos);
-		ObjectOutputStream privateoos = new ObjectOutputStream(privatefos);
+
+		// Encodes the keys into a byte array
+		byte[] publicKeyBytes = publicKey.getEncoded();
+		byte[] privateKeyBytes = privateKey.getEncoded();
 		
-		
-		// writes the keys to their respective files
-		publicoos.writeObject(publicKey);
-		publicoos.close();
+		// Writes the encoded keys to the files
+		publicfos.write(publicKeyBytes);
+		System.out.println("Public key saved to file: " + publicName);
 		publicfos.close();
 		
-		privateoos.writeObject(privateKey);
-		privateoos.close();
+		privatefos.write(privateKeyBytes);
+		System.out.println("Private key saved to file: " + privateName);
 		privatefos.close();
+		
 	}
 }
